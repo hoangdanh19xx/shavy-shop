@@ -1,0 +1,23 @@
+@import "settings";
+
+.header {
+    height: $header-height;
+    background-color: $header-bg;
+    position: relative;
+
+    &__container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__logo {
+        a {
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            color: $primary-color;
+            letter-spacing: 0.6rem;
+        }
+    }
+}

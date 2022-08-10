@@ -1,0 +1,36 @@
+@import "settings";
+
+.pagination {
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .page-item {
+        display: block;
+        padding: 0.5rem 1.5rem;
+        border: 1px solid $gray-light;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        &:not(:last-child) {
+            margin-right: 1.5rem;
+        }
+        &:hover {
+            background-color: $secondary-color;
+            .page-link {
+                color: $white-color;
+            }
+        }
+        &.active {
+            background-color: $secondary-color;
+            border: none;
+            .page-link {
+                color: $white-color;
+            }
+        }
+    }
+    .page-link {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: $primary-color;
+    }
+}

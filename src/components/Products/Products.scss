@@ -1,0 +1,63 @@
+@import "settings";
+
+.shop {
+    position: relative;
+    &__categories {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 4rem 0;
+        .menu {
+            display: flex;
+            align-items: center;
+            &-item {
+                padding: 0 1.5rem;
+                position: relative;
+                &:not(:last-child)::after {
+                    content: "/";
+                    position: absolute;
+                    right: 0;
+                    bottom: 0.2rem;
+                    font-size: 1.2rem;
+                }
+                a {
+                    color: $gray-color;
+                    &.active {
+                        color: $secondary-color;
+                    }
+                    &:hover {
+                        color: $secondary-color;
+                    }
+                } 
+            }
+        }
+    }
+    &__filter {
+        a {
+            padding: 0 1.5rem;
+            color: inherit;
+            position: relative;
+            &:not(:last-child)::after {
+                content: "/";
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                font-size: 1.2rem;
+            }
+            i {
+                margin-left: 1rem;
+            }
+            &:hover {
+                color: $secondary-color;
+            }
+        }
+    }
+    &__products {
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem 2rem;
+            margin-bottom: 5rem;
+        }
+    }
+}

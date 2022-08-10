@@ -1,0 +1,93 @@
+@import "settings";
+
+.cart {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    
+    &__container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        max-width: 50rem;
+        height: 100%;
+        background-color: $black-bg;
+        color: $gray-lighter;
+        padding: 0 3.5rem;
+        z-index: 10;
+    }
+    &__header {
+        padding: 2rem 0;
+        text-align: right; 
+        border-bottom: 1px solid $border-color;
+    }
+    &__action {
+        color: inherit;
+    }
+    &__content {
+        margin-top: 2rem;
+    }
+    &__list {
+        max-height: 65rem;
+        height: 100vh;
+        padding: 0 0.5rem;
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: #444;
+        }
+
+        .not-product {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            color: $white-color;
+        }
+    }
+    &__summary {
+        margin-top: auto;
+        p {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 0;
+            margin-bottom: 4rem;
+            border-top: 1px solid $border-color;
+            border-bottom: 1px solid $border-color;
+        } 
+    }
+    &__button {
+        display: block;
+        outline: none;
+        padding: 1rem 1.4rem;
+        background-color: $button-bg;
+        color: inherit;
+        text-align: center;
+        &:hover {
+            opacity: 0.9;
+        }
+        &--outline {
+            border: 1px solid $border-color;
+            background-color: transparent;
+        }
+    }
+    &__button + &__button {
+        margin-top: 1.5rem;
+    }
+}

@@ -1,0 +1,38 @@
+@import "settings";
+
+.footer {
+    height: $footer-height;
+    background-color: $primary-color;
+    &__container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &__links {
+        display: flex;
+        align-items: center;
+    }
+    &__link {
+        padding: 0 1.5rem;
+        font-size: 1.5rem;
+        a {
+            color: $gray-light;
+            transition: all 0.3s ease;
+            &:hover {
+                color: $white-color;
+            }
+        }
+        span {
+            margin-right: 0.5rem;
+        }
+    }
+    &__social {
+        padding: 0 1rem;
+        color: $gray-light;
+        font-size: 2rem;
+        &:hover {
+            color: $gray-color;
+        }
+    }
+}
