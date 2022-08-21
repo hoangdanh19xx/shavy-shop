@@ -1,4 +1,4 @@
-@import "settings";
+@import "variables";
 
 .cart {
     position: fixed;
@@ -10,6 +10,7 @@
     height: 100%;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
     
     &__container {
         position: absolute;
@@ -32,11 +33,13 @@
         color: inherit;
     }
     &__content {
+        height: 100%;
         margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
     }
     &__list {
-        max-height: 65rem;
-        height: 100vh;
+        flex: 1;
         padding: 0 0.5rem;
         overflow-y: auto;
         &::-webkit-scrollbar {
@@ -62,7 +65,7 @@
         }
     }
     &__summary {
-        margin-top: auto;
+        flex: 1;
         p {
             display: flex;
             justify-content: space-between;

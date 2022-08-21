@@ -1,19 +1,25 @@
 import React from 'react'
 import './App.scss'
-import Footer from 'components/Footer/Footer'
 import Header from 'components/Header/Header'
-
-import { store } from 'redux/store'
-import { Provider } from 'react-redux'
 import Products from 'components/Products/Products'
+import Slider from 'components/Slider/Slider'
+import Footer from 'components/Footer/Footer'
+
+import { store, persistor } from 'redux/store'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react';
+
 
 function App() {
   return (
     <div className='App'>
       <Provider store={store}>
-        <Header />
-        <Products />
-        <Footer />
+        <PersistGate loading={null} persistor={persistor}>
+          <Header />
+          <Slider />
+          <Products />
+          <Footer />
+        </PersistGate>
       </Provider>
     </div>
   )

@@ -1,4 +1,4 @@
-@import "settings";
+@import "variables";
 
 .product-detail {
     position: fixed;
@@ -10,6 +10,7 @@
     height: 100%;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
 
     &__inner {
         position: absolute;
@@ -120,6 +121,23 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+    }
+}
+
+@media screen and (max-width: 48em) {
+    .product-detail {
+        &__inner {
+            flex-direction: column-reverse;
+        }
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .product-detail {
+        &__inner {
+            flex-direction: column-reverse;
+            width: 100%;
         }
     }
 }

@@ -1,0 +1,27 @@
+@import "variables";
+
+.form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 0.3rem $gray-color;
+    animation: smoothAnimation 0.2s;
+    &__input {
+       width: 100%;
+       padding: 1rem;
+       border: none;
+    }
+    &__icon {
+        font-size: 2.2rem;
+        padding: 1rem;
+        cursor: pointer;
+    }
+}
+
+@keyframes smoothAnimation {
+    from {
+        height: 20px;
+    } to {
+        height: 45px;
+    }
+}

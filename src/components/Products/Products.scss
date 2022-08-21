@@ -1,6 +1,6 @@
-@import "settings";
+@import "variables";
 
-.shop {
+.products {
     position: relative;
     &__categories {
         display: flex;
@@ -32,18 +32,17 @@
             }
         }
     }
-    &__filter {
+    &__title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: $primary-color;
+    }
+    &__search {
         a {
             padding: 0 1.5rem;
             color: inherit;
             position: relative;
-            &:not(:last-child)::after {
-                content: "/";
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                font-size: 1.2rem;
-            }
+            transition: all 0.3s ease-in;
             i {
                 margin-left: 1rem;
             }
@@ -58,6 +57,39 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 4rem 2rem;
             margin-bottom: 5rem;
+        }
+    }
+}
+
+@media (max-width: 48em) {
+    .products {
+        &__products {
+            .product-list {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3rem 2rem;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:  31.25em) {
+    .products {
+        &__categories {
+            margin: 3rem 0;
+        }
+
+        &__title {
+            font-size: 1.6rem;
+        }
+
+        &__search {
+            font-size: 1.4rem;
+        }
+
+        .product-list {
+            place-items: center;
+            grid-template-columns: repeat(1, 1fr);
         }
     }
 }

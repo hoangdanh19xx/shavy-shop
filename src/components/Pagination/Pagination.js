@@ -17,7 +17,7 @@ function Pagination({ currentPage, productsPerPage, totalProducts, paginate }) {
             className={`page-item ${currentPage === number ? 'active' : ''}`}
             onClick={() => paginate(number)}
           >
-            <a href='!#' className='page-link'>
+            <a href='#products' className='page-link'>
               {number}
             </a>
           </li>

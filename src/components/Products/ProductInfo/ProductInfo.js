@@ -3,25 +3,39 @@ import './ProductInfo.scss'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  toggleOpenProduct,
   toggleOffProduct,
-  getProductItem
+  getProductItem,
 } from 'redux/productSlice/productSlice'
+import { toggleOnCart } from 'redux/cartSlice/cartSlice'
+import {
+  addToCart, 
+  getQuantityValue, 
+  incrementQuantity,
+  decrementQuantity
+} from 'redux/cartSlice/cartSlice'
+import numberWithCommas from 'utilities/numberWithCommas'
 
 function ProductInfo() {
   const dispatch = useDispatch()
-  const isProductInfo = useSelector(toggleOpenProduct)
   const productItem = useSelector(getProductItem)
-  console.log("info", productItem)
+  const quantity = useSelector(getQuantityValue)
   const { name, normal_price, images, description } = productItem
 
   const handleCloseToggle = (e) => {
-    dispatch(!isProductInfo)
     e.stopPropagation()
+    dispatch(toggleOffProduct())
   }
 
   const handleStopClose = (e) => {
     e.stopPropagation()
+  }
+
+  const handleAddProductToCart = (obj) => {
+    dispatch(addToCart(obj))
+    dispatch(toggleOffProduct())
+    setTimeout(() => {
+      dispatch(toggleOnCart())
+    }, 200)
   }
 
   return (
@@ -36,24 +50,24 @@ function ProductInfo() {
         <div className='product-detail__content'>
           <div className='product-detail__top'>
             <h3 className='title'>{name}</h3>
-            <span className='price'>${normal_price}</span>
+            <span className='price'>{`${numberWithCommas(normal_price)} VNĐ`}</span>
           </div>
           <div className='product-detail__bottom'>
             <p className='desc'>{description}</p>
             <div className='quantity'>
               <i
                 className='fa-solid fa-caret-left'
-              // onClick={() => dispatch(decrementQuantity(1))}
+                onClick={() => dispatch(decrementQuantity(1))}
               ></i>
-              {/* {sold_quantity === 0 ? 1 : sold_quantity} */}0
+              {quantity}
               <i
                 className='fa-solid fa-caret-right'
-              // onClick={() => dispatch(incrementQuantity(1))}
+                onClick={() => dispatch(incrementQuantity(1))}
               ></i>
             </div>
             <button
               className='btn'
-            // onClick={() => handleAddProductToCart(productItem)}
+              onClick={() => handleAddProductToCart(productItem)}
             >
               Add to cart
             </button>

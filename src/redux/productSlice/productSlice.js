@@ -6,6 +6,7 @@ const initialState = {
   products: [],
   productItem: {},
   isOpenProductInfo: false,
+  searchItem: ''
 }
 
 export const getListProducts = createAsyncThunk(
@@ -33,16 +34,27 @@ export const productSlice = createSlice({
     },
     displayProductInfo: (state, action) => {
       state.productItem = action.payload
-    }
+    },
+    handleSearchItem: (state, action) => {
+      state.searchItem = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getListProducts.fulfilled, (state, action) => {
-      state.products = action.payload
+      const defaultImage = ["https://d3hr4eej8cfgwy.cloudfront.net/finan-stg/1bff25f2-52fb-4472-b88a-3adf2635d083/image/56373c10-c1fa-470b-80e8-f21f4e4d3fe0.jpg"]
+      let data = action.payload?.data.map(item => Object.keys(item.images).length === 0 ? { ...item, images: defaultImage } : item)
+      state.products = { ...action.payload, data }
     })
   },
 })
 
-export const { toggleOnProduct, toggleOffProduct, displayProductInfo } = productSlice.actions
+export const {
+  toggleOnProduct,
+  toggleOffProduct,
+  displayProductInfo,
+  handleSearchItem,
+  filterProductsByKey
+} = productSlice.actions
 
 export const getAllProducts = (state) => {
   return state.products.products

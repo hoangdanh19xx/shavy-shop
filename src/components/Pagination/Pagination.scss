@@ -1,4 +1,4 @@
-@import "settings";
+@import "variables";
 
 .pagination {
     padding: 1.5rem 0;
@@ -32,5 +32,11 @@
         font-size: 1.5rem;
         font-weight: 400;
         color: $primary-color;
+    }
+}
+
+@media screen and (max-width: 48em) {
+    .pagination {
+        
     }
 }

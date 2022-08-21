@@ -1,25 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getListCarts,
-  getTotalPrice,
   toggleOffCart,
+  calculateTotalPriceProduct,
+  getTotalPrice
 } from 'redux/cartSlice/cartSlice'
 import './Cart.scss'
 import CartItem from './CartItem/CartItem'
+import numberWithCommas from 'utilities/numberWithCommas'
 
 function Cart() {
   const dispatch = useDispatch()
   const carts = useSelector(getListCarts)
-  console.log('object', carts)
-  const totalPrice = useSelector(getTotalPrice)
+  const totalProductsPrice = useSelector(getTotalPrice)
+
+  useEffect(() => {
+    dispatch(calculateTotalPriceProduct())
+  }, [dispatch])
 
   const handleCloseCart = (e) => {
     e.stopPropagation()
   }
 
   return (
-    <section className='cart'>
+    <section className='cart' onClick={() => dispatch(toggleOffCart())}>
       <div className='cart__container' onClick={handleCloseCart}>
         <div className='cart__header'>
           <a
@@ -39,11 +44,10 @@ function Cart() {
             ) : (
               <div className='not-product'>No products in the cart.</div>
             )}
-            {/* <div className="not-product">No products in the cart.</div> */}
           </ul>
           <div className='cart__summary'>
             <p>
-              Subtotal: <span className='price'>${totalPrice}</span>
+              Subtotal: <span className='price'>{`${numberWithCommas(totalProductsPrice)} VNĐ`}</span>
             </p>
             <a href='!#' className='cart__button cart__button--outline'>
               View Cart

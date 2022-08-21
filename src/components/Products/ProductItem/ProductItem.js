@@ -1,17 +1,16 @@
 import React from 'react'
 import './ProductItem.scss'
 
-
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
-  toggleOpenProduct,
   toggleOnProduct,
   displayProductInfo
 } from 'redux/productSlice/productSlice'
+import numberWithCommas from 'utilities/numberWithCommas'
 
 function ProductItem({ product }) {
   const dispatch = useDispatch()
-  const { images, name, normal_price } = product
+  let { images, name, normal_price } = product
 
   const handleProductItem = (product) => {
     dispatch(displayProductInfo(product))
@@ -19,7 +18,7 @@ function ProductItem({ product }) {
   }
 
   return (
-    <li className='product-list__item'>
+    <li className='product-list__item' onClick={() => handleProductItem(product)}>
       <div className='image'>
         <img src={images} alt='' />
       </div>
@@ -28,7 +27,7 @@ function ProductItem({ product }) {
           <h4>{name}</h4>
           <i className='fa-solid fa-heart'></i>
         </div>
-        <span className='price'>${normal_price}</span>
+        <span className='price'>{`${numberWithCommas(normal_price)} VNĐ`}</span>
       </div>
       <span className='show-me' onClick={() => handleProductItem(product)}>
         Show me
