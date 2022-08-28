@@ -19,7 +19,7 @@ function Nav({ isOpenBar }) {
         <li className='nav-menu__item' onClick={() => setIsOpenSubMenu(!isOpenSubMenu)}>
           <a href='!#'>
             Categories <span>New</span>
-            <i className="fa-solid fa-plus plus-icon"></i>
+            <i className={`fa-solid ${isOpenSubMenu ? 'fa-minus' : 'fa-plus'}  plus-icon`}></i>
           </a>
           <ul className={`sub-menu ${isOpenSubMenu ? 'open' : ''}`}>
             <li className='sub-menu__item'>
