@@ -9,7 +9,6 @@ import { store, persistor } from 'redux/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 
-
 function App() {
   return (
     <div className='App'>

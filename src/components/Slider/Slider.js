@@ -28,6 +28,7 @@ function Slider() {
       modules={[Autoplay, Pagination, Navigation]}
       loop={true}
       className="slide"
+      id="slide"
     >
       <div className="slide__container">
         <SwiperSlide>

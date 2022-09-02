@@ -22,7 +22,7 @@ function Header() {
         <div className="bars" onClick={() => setIsOpenBars(!isOpenBars)}>
           <i className={`fa-solid ${isOpenBars ? 'fa-xmark' : 'fa-bars'}`}></i>
         </div>
-        <Nav isOpenBar={isOpenBars} />
+        <Nav isOpenBar={isOpenBars} setIsOpenBars={setIsOpenBars} />
         <h1 className='header__logo'>
           <a href='!#'>Savoy</a>
         </h1>

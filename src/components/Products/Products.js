@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import './Products.scss'
 import ProductItem from './ProductItem/ProductItem'
 import ProductInfo from 'components/Products/ProductInfo/ProductInfo'
@@ -18,16 +19,16 @@ function Products() {
   const toggleProductInfo = useSelector(toggleOpenProduct)
   const searchTerm = useSelector(state => state.products.searchItem)
 
-  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [productsPerPage] = useState(12)
   const [currentProducts, setCurrentProducts] = useState([])
   const [isOpenInput, setIsOpenInput] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [width, setWidth] = useState(window.innerWidth)
+  const [items, setItems] = useState([])
 
   useEffect(() => {
-    setLoading(true)
     dispatch(getListProducts())
-    setLoading(false)
   }, [dispatch])
 
   useEffect(() => {
@@ -44,37 +45,90 @@ function Products() {
     setCurrentPage(pageNumber)
   }
 
+  useEffect(() => {
+    const searchProduct = (search) => {
+      let filterItem = products?.data?.filter(product => product.name.toLowerCase().includes(search.toLowerCase()) ||
+        searchVietnamese(product.name.toLowerCase()).includes(search.toLowerCase()))
+      setItems(filterItem)
+    }
+    searchProduct(searchTerm)
+  }, [products?.data, searchTerm])
+
+  const renderProducts = searchTerm !== '' ? items : currentProducts
+
+  useEffect(() => {
+    const getValueScreenWidth = () => {
+      setWidth(window.innerWidth)
+    }
+    window.addEventListener('resize', getValueScreenWidth)
+
+    return () => window.removeEventListener('resize', getValueScreenWidth)
+  }, [])
+
+  const handleSelectElement = () => {
+    setOpen(false)
+  }
+
   return (
     <section className='products' id="products">
       <div className='container products__container'>
         <div className='products__categories'>
-          <h2 className="products__title">FEATURED PRODUCTS</h2>
+          {width > 768 ? (<ul className="products__select">
+            <li className="products__select-item">
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>All</NavLink>
+            </li>
+            <li className="products__select-item">
+              <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')}>Bags &#38; Backpacks</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')}> Decoration</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')}>Essential</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')}>Interior</NavLink>
+            </li>
+          </ul>) : (<h3 onClick={() => setOpen(!open)}>Categories</h3>)}
+
           <div className='products__search'>
             <a href='#product' onClick={() => setIsOpenInput(!isOpenInput)}>
               Search<i className='fa-solid fa-magnifying-glass'></i>
             </a>
           </div>
+        </div >
+        <div className="mobile">
+          <ul className={`products__select ${open ? 'open' : ''}`}>
+            <li className="products__select-item">
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>All</NavLink>
+            </li>
+            <li className="products__select-item">
+              <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Bags &#38; Backpacks</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}> Decoration</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Essential</NavLink>
+            </li>
+            <li className="products__select-item" >
+              <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Interior</NavLink>
+            </li>
+          </ul>
         </div>
-        {isOpenInput && <Input isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />}
+
+        {isOpenInput && <Input isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />
+        }
         <div className='products__products'>
           <ul className='product-list'>
-            {loading ? (
-              <div>Loading...!!!</div>
-            ) : (
-              currentProducts &&
-              currentProducts.map((product) => {
-                return product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  searchVietnamese(product.name.toLowerCase()).includes(searchTerm.toLowerCase())
-                  ? (
-                    <ProductItem
-                      key={product.id}
-                      product={product}
-                    />
-                  )
-                  :
-                  null
-              })
-            )}
+            {renderProducts &&
+              renderProducts.map((product) => (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                />
+              ))
+            }
             {toggleProductInfo && (
               <ProductInfo />
             )}
@@ -86,8 +140,8 @@ function Products() {
             paginate={paginate}
           />
         </div>
-      </div>
-    </section>
+      </div >
+    </section >
   )
 }
 
