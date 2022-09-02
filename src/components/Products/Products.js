@@ -121,18 +121,33 @@ function Products() {
         }
         <div className='products__products'>
           <ul className='product-list'>
-            {renderProducts &&
+            {renderProducts ?
               renderProducts.map((product) => (
                 <ProductItem
                   key={product.id}
                   product={product}
                 />
-              ))
+              )) : (
+                <div className='not-product'>
+                  <i className="fa-solid fa-cart-shopping"></i>
+                  <h2>No products!!</h2>
+                </div>
+              )
             }
+
+            {items?.length === 0 && (
+              <div className='not-found'>
+                <i className="fa-solid fa-magnifying-glass"></i>
+                <h2>No products found</h2>
+              </div>
+            )}
+
             {toggleProductInfo && (
               <ProductInfo />
             )}
           </ul>
+
+
           <Pagination
             productsPerPage={productsPerPage}
             totalProducts={products?.data?.length}
