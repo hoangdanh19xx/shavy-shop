@@ -74,7 +74,7 @@ function Products() {
     return () => window.removeEventListener('resize', getValueScreenWidth)
   }, [])
 
-  const handleGetCategory = (categoryName) => {
+  const handleGetProductToCategory = (categoryName) => {
     let name = categories.data.find(item => item.name === categoryName)
     const data = []
     products.data.filter(item => (item.category?.[0].id === name.category.id) ? data.push(item) : data)
@@ -88,18 +88,18 @@ function Products() {
         <div className='products__categories'>
           {width > 768 ? (<ul className="products__select">
             <li className="products__select-item">
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleGetCategory}>All</NavLink>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setCategoriesItem(products)}>All</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Bags")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Bags")}>
               <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')}>Bags &#38; Backpacks</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Decoration")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Decoration")}>
               <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')}> Decoration</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Essential")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Essential")}>
               <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')}>Essential</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Interior")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Interior")}>
               <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')}>Interior</NavLink>
             </li>
           </ul>) : (<h3 onClick={() => setOpen(!open)}>Categories</h3>)}
@@ -113,18 +113,18 @@ function Products() {
         <div className="mobile">
           <ul className={`products__select ${open ? 'open' : ''}`}>
             <li className="products__select-item">
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleGetCategory}>All</NavLink>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setCategoriesItem(products)}>All</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Bags")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Bags")}>
               <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')}>Bags &#38; Backpacks</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Decoration")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Decoration")}>
               <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')}> Decoration</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Essential")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Essential")}>
               <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')}>Essential</NavLink>
             </li>
-            <li className="products__select-item" onClick={() => handleGetCategory("Interior")}>
+            <li className="products__select-item" onClick={() => handleGetProductToCategory("Interior")}>
               <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')}>Interior</NavLink>
             </li>
           </ul>
