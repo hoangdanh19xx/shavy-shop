@@ -6,7 +6,9 @@ import ProductInfo from 'components/Products/ProductInfo/ProductInfo'
 import {
   getListProducts,
   getAllProducts,
-  toggleOpenProduct
+  toggleOpenProduct,
+  getListCategories,
+  getCategories
 } from 'redux/productSlice/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Pagination from 'components/Pagination/Pagination'
@@ -16,22 +18,29 @@ import searchVietnamese from 'utilities/searchVietnamese'
 function Products() {
   const dispatch = useDispatch()
   const products = useSelector(getAllProducts)
+  const categories = useSelector(getCategories)
   const toggleProductInfo = useSelector(toggleOpenProduct)
   const searchTerm = useSelector(state => state.products.searchItem)
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [productsPerPage] = useState(12)
+  const [productsPerPage, setProductsPerPage] = useState(12)
   const [currentProducts, setCurrentProducts] = useState([])
   const [isOpenInput, setIsOpenInput] = useState(false)
   const [open, setOpen] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const [items, setItems] = useState([])
+  const [categoriesItem, setCategoriesItem] = useState([])
 
   useEffect(() => {
     dispatch(getListProducts())
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(getListCategories())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (width < 450) setProductsPerPage(8)
     const indexOfLastProduct = currentPage * productsPerPage
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage
     const currentProducts = products?.data?.slice(
@@ -39,7 +48,7 @@ function Products() {
       indexOfLastProduct
     )
     setCurrentProducts(currentProducts)
-  }, [currentPage, products, productsPerPage])
+  }, [currentPage, products, productsPerPage, width])
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber)
@@ -54,7 +63,7 @@ function Products() {
     searchProduct(searchTerm)
   }, [products?.data, searchTerm])
 
-  const renderProducts = searchTerm !== '' ? items : currentProducts
+  const renderProducts = searchTerm !== '' ? items : categoriesItem.length > 0 ? categoriesItem : currentProducts
 
   useEffect(() => {
     const getValueScreenWidth = () => {
@@ -65,7 +74,11 @@ function Products() {
     return () => window.removeEventListener('resize', getValueScreenWidth)
   }, [])
 
-  const handleSelectElement = () => {
+  const handleGetCategory = (categoryName) => {
+    let name = categories.data.find(item => item.name === categoryName)
+    const data = []
+    products.data.filter(item => (item.category?.[0].id === name.category.id) ? data.push(item) : data)
+    setCategoriesItem(data)
     setOpen(false)
   }
 
@@ -75,18 +88,18 @@ function Products() {
         <div className='products__categories'>
           {width > 768 ? (<ul className="products__select">
             <li className="products__select-item">
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>All</NavLink>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleGetCategory}>All</NavLink>
             </li>
-            <li className="products__select-item">
+            <li className="products__select-item" onClick={() => handleGetCategory("Bags")}>
               <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')}>Bags &#38; Backpacks</NavLink>
             </li>
-            <li className="products__select-item" >
+            <li className="products__select-item" onClick={() => handleGetCategory("Decoration")}>
               <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')}> Decoration</NavLink>
             </li>
-            <li className="products__select-item" >
+            <li className="products__select-item" onClick={() => handleGetCategory("Essential")}>
               <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')}>Essential</NavLink>
             </li>
-            <li className="products__select-item" >
+            <li className="products__select-item" onClick={() => handleGetCategory("Interior")}>
               <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')}>Interior</NavLink>
             </li>
           </ul>) : (<h3 onClick={() => setOpen(!open)}>Categories</h3>)}
@@ -100,19 +113,19 @@ function Products() {
         <div className="mobile">
           <ul className={`products__select ${open ? 'open' : ''}`}>
             <li className="products__select-item">
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>All</NavLink>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleGetCategory}>All</NavLink>
             </li>
-            <li className="products__select-item">
-              <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Bags &#38; Backpacks</NavLink>
+            <li className="products__select-item" onClick={() => handleGetCategory("Bags")}>
+              <NavLink to="/bags" className={({ isActive }) => (isActive ? 'active' : '')}>Bags &#38; Backpacks</NavLink>
             </li>
-            <li className="products__select-item" >
-              <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}> Decoration</NavLink>
+            <li className="products__select-item" onClick={() => handleGetCategory("Decoration")}>
+              <NavLink to="/decoration" className={({ isActive }) => (isActive ? 'active' : '')}> Decoration</NavLink>
             </li>
-            <li className="products__select-item" >
-              <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Essential</NavLink>
+            <li className="products__select-item" onClick={() => handleGetCategory("Essential")}>
+              <NavLink to="/essential" className={({ isActive }) => (isActive ? 'active' : '')}>Essential</NavLink>
             </li>
-            <li className="products__select-item" >
-              <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')} onClick={handleSelectElement}>Interior</NavLink>
+            <li className="products__select-item" onClick={() => handleGetCategory("Interior")}>
+              <NavLink to="/interior" className={({ isActive }) => (isActive ? 'active' : '')}>Interior</NavLink>
             </li>
           </ul>
         </div>
@@ -127,7 +140,7 @@ function Products() {
                   key={product.id}
                   product={product}
                 />
-              )) : (
+              )) : (categoriesItem?.length === 0 &&
                 <div className='not-product'>
                   <i className="fa-solid fa-cart-shopping"></i>
                   <h2>No products!!</h2>
@@ -147,10 +160,9 @@ function Products() {
             )}
           </ul>
 
-
           <Pagination
             productsPerPage={productsPerPage}
-            totalProducts={products?.data?.length}
+            totalProducts={categoriesItem.length > 0 ? categoriesItem.length : products?.data?.length}
             currentPage={currentPage}
             paginate={paginate}
           />
